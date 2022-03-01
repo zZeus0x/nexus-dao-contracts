@@ -156,12 +156,7 @@ contract NexusVault is ERC721Holder, Ownable {
     // Distribution functions
     //
 
-    function calcDistributionData() external {
-        require(
-            block.timestamp >= (nextDistributionIn - 30 minutes),
-            "NexusVault: try again later"
-        );
-
+    function calcDistributionData() external onlyDistributor {
         shareholders = new address[](0);
         shares = new uint256[](0);
         totalShares = 0;
@@ -184,7 +179,7 @@ contract NexusVault is ERC721Holder, Ownable {
         isDataCalculated = true;
     }
 
-    function resetCalculatedData() external onlyOwner {
+    function resetCalculatedData() external onlyDistributor {
         shareholders = new address[](0);
         shares = new uint256[](0);
         totalShares = 0;
